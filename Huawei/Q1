@@ -1,0 +1,93 @@
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <cstring>
+#include <algorithm>
+#include <vector>
+#include <set>
+#include <unordered_set>
+#include <map>
+#include <unordered_map>
+#include <queue>
+#include <deque>
+#include <stack>
+#include <random> 
+#include <cmath>  
+
+using namespace std;
+
+int main() {
+	int  x;
+	int y;
+	cin >> x;
+	cin >> y;
+
+	int s[6][6] = { { 0,2,10,5,3,1000 }, { 1000,0,12,1000,1000,10 }, { 1000,1000,0,1000,7,1000}, { 2,1000,1000,0,2,1000 }, {4,1000,1000,1,0,1000 }, {3,1000,1,1000,2,0 } };
+	if (y!=0)
+		for (int i = 0; i < 6; i++){
+			s[i][y-1] = 1000;
+			s[y-1][i] = 1000;
+		}
+	int l[6] = { 1000, 1000, 1000, 1000, 0, 1000 };
+	int path[6][6];
+	for (int i = 0; i < 6; i++){
+		for (int j = 0; j < 6; j++){
+			path[i][j] = 0;
+		}
+	}
+	path[4][0] = 5;
+	if (x == y){
+		cout << 1000 << endl; 
+		cout << "[]" << endl;
+	}
+	else{
+		int minl = 1000;
+		int count = 0;
+		while (l[x - 1]== 1000 || l[x - 1] > minl){
+			count++;
+			int aim = l[x - 1];
+			int nl[6];
+			for (int i = 0; i < 6; i++){
+				nl[i] = l[i];
+			}
+			for (int i = 0; i < 6; i++){
+				if (i == x - 1)
+					continue;
+				if (l[i] < aim){
+					for (int j = 0; j < 6; j++){
+						if (j == i)
+							continue;
+						if (j == 4)
+							continue;
+						if (s[i][j] + l[i] < l[j]){
+							nl[j] = s[i][j] + l[i];
+							for (int k = 0; k < 6; k++)
+								path[j][k] = path[i][k];
+							for (int k = 0; k < 6; k++)
+								if (path[j][k] == 0){
+									path[j][k] = j + 1;
+									break;
+								}
+							
+						}
+					}
+				}
+
+			}
+			for (int i = 0; i < 6; i++){
+				l[i] = nl[i];
+			}
+			l[4] = 1000;
+			for (int k = 0; k < 6; k++){
+				if (l[k] < minl)
+					minl = l[k];
+			}
+			if (count > 6)
+				break;
+		}
+		cout << l[x - 1] << endl;
+		for (int k = 0; k < 6; k++)
+			cout << path[x - 1][k] << endl;
+	}
+
+}
