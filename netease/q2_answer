@@ -1,0 +1,37 @@
+作者：NotDeep
+链接：https://www.nowcoder.com/discuss/22696?type=0&order=0&pos=5&page=1&nsukey=YIrJYXEoopL15pCX1V%2F0R1mLFRRfJSyRCELYkucnH3v4fqN693DlxusytzCnVoR3TuM71B8gPMOEDoZwpvJdk%2BQQpJbaUJp9RkPyc4xfw%2BOhFLy9m0F5lW%2FTOlXSk5mA2itZTP2QAV%2Fr80ZnFshjFsFPQJlauS%2BI4vHKYdzNS2qehmYTjdH51miRvPnGksRm
+来源：牛客网
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+vector<string> a; 
+int n;
+int b[10]; 
+int ret;
+void dfs(int i) {
+    if(i == a.size()) {
+        ret++;
+    } else {
+        for(int j = 0; j < a[i].size(); j++) {
+            if(b[a[i][j] - '0']) {
+                b[a[i][j] - '0'] = 0;
+                dfs(i + 1);
+                b[a[i][j] - '0'] = 1;
+            }
+        }
+    }
+} 
+int main() {
+    cin >> n;
+    for(int i = 0; i < n; i++) {
+        string x; cin >> x;
+        a.push_back(x);
+    }
+    for(int i = 0; i < 10; i++) b[i] = 1;
+    ret = 0;
+    dfs(0);
+    cout << ret << endl;
+    return 0;
+}
