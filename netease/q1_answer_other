@@ -1,0 +1,38 @@
+作者：NotDeep
+链接：https://www.nowcoder.com/discuss/22696?type=0&order=0&pos=5&page=1&nsukey=YIrJYXEoopL15pCX1V%2F0R1mLFRRfJSyRCELYkucnH3v4fqN693DlxusytzCnVoR3TuM71B8gPMOEDoZwpvJdk%2BQQpJbaUJp9RkPyc4xfw%2BOhFLy9m0F5lW%2FTOlXSk5mA2itZTP2QAV%2Fr80ZnFshjFsFPQJlauS%2BI4vHKYdzNS2qehmYTjdH51miRvPnGksRm
+来源：牛客网
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int vis[204800];
+vector<int> a;
+int n;
+int solve(vector<int> vec) {
+    int i, j, len = 0;
+    for(int i = 0; i < vec.size(); ++i)  len += (vec[i] /= 1024);
+    memset(vis, 0, sizeof(vis[0]) * (len / 2 + 1));
+
+    vis[0] = 1;
+    for(i = 0; i < vec.size(); ++i) { 
+        for(j =  len / 2 - vec[i]; j >= 0; --j) {
+            if(vis[j] && !vis[j + vec[i]]) {
+                vis[j + vec[i]] = 1;
+            }
+        }
+    }
+    i = len / 2;
+    while(i >= 0 && !vis[i])
+        --i;
+    return (len - i) * 1024;
+}
+int main(){
+    cin >> n;
+    for(int i = 0; i < n; i++) {
+        int x; cin >> x;
+        a.push_back(x);
+    }
+    cout << solve(a) << endl;
+    return 0;
+}
